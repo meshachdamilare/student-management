@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  student-management:
+    build: . # search for Dockerfile.sales-api in the current directory
+    container_name: api
+    volumes:
+      - .:/go/src/student-management
+    ports:
+      - "8001:8080"
+    networks:
+      - student-api
+
+  mysql:
+    image: mysql:latest
+    container_name: student-api-mysql
+    ports:
+      - 3307:3306
+    environment:
+      - MYSQL_DATABASE=student-management
+      - MYSQL_PASSWORD=secret
+      - MYSQL_ROOT_PASSWORD=secret
+    volumes:
+      - database_mysql:/var/lib/mysql
+    networks:
+      - student-api
+
+volumes:
+  database_mysql:
+
+networks:
+  student-api:
+    external: true
