@@ -15,6 +15,15 @@ definitions:
           $ref: '#/definitions/model.Student'
         type: array
     type: object
+  model.CourseRequest:
+    properties:
+      course_name:
+        type: string
+      description:
+        type: string
+      instructor:
+        type: string
+    type: object
   model.DeleteResponse:
     properties:
       message:
@@ -67,6 +76,96 @@ info:
   title: Student Management API
   version: "1"
 paths:
+  /courses:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of all courses
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Course'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.ErrorResponse'
+      summary: GetAllCourses
+    post:
+      consumes:
+      - application/json
+      description: Create a course with the given details
+      parameters:
+      - description: Course details
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/model.CourseRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Course'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.ErrorResponse'
+      summary: CreateCourse
+  /courses/{courseId}:
+    get:
+      description: Get the details of a course with the given ID
+      parameters:
+      - description: Course ID
+        in: path
+        name: courseId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Course'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/model.ErrorResponse'
+      summary: GetCourse
+  /courses/{courseId}/students:
+    get:
+      description: Get a list of all students taken a course
+      parameters:
+      - description: Course ID
+        in: path
+        name: courseId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Student'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.ErrorResponse'
+      summary: ListStudentTakenACourse
   /students:
     get:
       consumes:
