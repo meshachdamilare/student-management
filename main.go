@@ -14,7 +14,7 @@ import (
 // @title Student Management API
 // @description API for managing students and courses.
 // @version 1
-// @host localhost:8080
+// @host localhost:8001
 // @BasePath /api
 // @schemes http
 

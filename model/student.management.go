@@ -43,3 +43,12 @@ type CourseRequest struct {
 	Description string `json:"description"`
 	Instructor  string `json:"instructor"`
 }
+
+// For swagger UI generation
+type ErrorResponse struct {
+	Message string `json:"message"`
+}
+
+type DeleteResponse struct {
+	Message string `json:"message"`
+}
